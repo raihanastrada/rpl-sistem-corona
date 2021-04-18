@@ -13,47 +13,47 @@ import loginUI as lUI
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.uic import loadUi
 
-class Register(QtWidgets.QDialog):
-    def __init__(self):
-        super(Register, self).__init__()
-        loadUi('register.ui', self)
-        self.setWindowTitle("Register Form")
-        self.btn_login.clicked.connect(self.login_clicked)
-        self.btn_register.clicked.connect(self.register_clicked)
+def login_clicked(dialog):
+    dialog.close()
+    login_page = lUI.LoginProcedural()
+    login_page.exec_()
+    return
 
-    def login_clicked(self):
-        self.close()
-        login_page = lUI.Login()
-        login_page.exec_()
+def register_clicked(dialog):
+    nama = dialog.line_nama.text()
+    email = dialog.line_email.text()
+    password = dialog.line_password.text()
+    upin = dialog.line_pin.text()
+    number = dialog.line_number.text()
+    if nama == "" or email == "" or password == "" or upin == "" or number == "":
+        dialog.lbl_notification.setText("Tolong untuk mengisi seluruh bagian dengan benar")
         return
-    
-    def register_clicked(self):
-        nama = self.line_nama.text()
-        email = self.line_email.text()
-        password = self.line_password.text()
-        upin = self.line_pin.text()
-        number = self.line_number.text()
-        if nama == "" or email == "" or password == "" or upin == "" or number == "":
-            self.lbl_notification.setText("Tolong untuk mengisi seluruh bagian dengan benar")
-            return
-        if len(upin) != 6 or upin.isdecimal() == False:
-            self.lbl_notification.setText("PIN harus merupakan angka berjumlah 6")
-            return
-        if number.isdecimal() == False:
-            self.lbl_notification.setText("Nomor telepon harus merupakan angka")
-            return
-        lq.addCustomerEntry(nama, email, password, number, upin)
-        self.close()
-        login_page = lUI.Login()
-        login_page.exec_()
+    if len(upin) != 6 or upin.isdecimal() == False:
+        dialog.lbl_notification.setText("PIN harus merupakan angka berjumlah 6")
         return
+    if number.isdecimal() == False:
+        dialog.lbl_notification.setText("Nomor telepon harus merupakan angka")
+        return
+    lq.addCustomerEntry(nama, email, password, number, upin)
+    dialog.close()
+    login_page = lUI.LoginProcedural()
+    login_page.exec_()
+    return
 
-def startRegisterDialog():
+def RegisterProcedural():
+    dialog = QtWidgets.QDialog()
+    loadUi('register.ui', dialog)
+    dialog.setWindowTitle("Register Form")
+    dialog.btn_login.clicked.connect(lambda: login_clicked(dialog))
+    dialog.btn_register.clicked.connect(lambda: register_clicked(dialog))
+    return dialog
+
+def startRegisterProcedural():
     app = QtWidgets.QApplication(sys.argv)
-    widget = Register()
-    widget.show()
+    dialog = RegisterProcedural()
+    dialog.show()
     sys.exit(app.exec_())
     return
 
 if __name__ == "__main__":
-    startRegisterDialog()
+    startRegisterProcedural()

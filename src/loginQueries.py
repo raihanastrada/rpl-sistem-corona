@@ -5,7 +5,7 @@ def createUserDatabase():
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS
-                    user(user_id INTEGER PRIMARY KEY,
+                    t_akun(user_id INTEGER PRIMARY KEY,
                     name TEXT NOT NULL,
                     email TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
@@ -19,7 +19,7 @@ def createCustomerDatabase():
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS
-                    customer(user_id INTEGER PRIMARY KEY,
+                    t_customer(user_id INTEGER PRIMARY KEY,
                     membership_status BOOLEAN NOT NULL DEFAULT 0,
                     PIN INTEGER NOT NULL,
                     FOREIGN KEY (user_id) REFERENCES user(user_id)
@@ -34,7 +34,7 @@ def createAdminDatabase():
 def isEmailExist(email):
     connectionUser = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connectionUser.cursor()
-    command = "SELECT user_id FROM user WHERE user.email = ?"
+    command = "SELECT user_id FROM t_akun WHERE t_akun.email = ?"
     cursor.execute(command, (email,))
     rows = cursor.fetchall()
     return (len(rows) > 0)
@@ -43,7 +43,7 @@ def isEmailExist(email):
 def userCount():
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    cursor.execute("SELECT * from user")
+    cursor.execute("SELECT * from t_akun")
     return len(cursor.fetchall())
 
 # Menambahkan Entry pada User Database dan Customer Database, membership status default = False
@@ -55,12 +55,12 @@ def addCustomerEntry(name, email, password, number, uPIN):
     connectionCustomer = sqlite3.connect('sistem-tracking-corona.db')
     cursorCustomer = connectionCustomer.cursor()
     user = (name, email, password, 'Customer', number)
-    commandUser = """INSERT INTO user(name, email, password, role, number)
+    commandUser = """INSERT INTO t_akun(name, email, password, role, number)
                     VALUES (?, ?, ?, ?, ?)"""
     cursorUser.execute(commandUser, user)
     count = userCount() # user count
     cursorUser.connection.commit()
-    commandCustomer = """INSERT INTO customer(user_id, membership_status, PIN)
+    commandCustomer = """INSERT INTO t_customer(user_id, membership_status, PIN)
                         VALUES (?, ?, ?)"""
     customer = (count + 1, 0, uPIN)
     cursorCustomer.execute(commandCustomer, customer)
@@ -74,7 +74,7 @@ def addAdminEntry(name, email, password, number):
     connectionAdmin = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connectionAdmin.cursor()
     user = (name, email, password, 'Admin', number)
-    commandInsert = """INSERT INTO user(name, email, password, role, number) 
+    commandInsert = """INSERT INTO t_akun(name, email, password, role, number) 
                     VALUES (?, ?, ?, ?, ?)"""
     cursor.execute(commandInsert, user)
     cursor.connection.commit()
@@ -84,11 +84,11 @@ def addAdminEntry(name, email, password, number):
 def showUserEntries():
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = "SELECT * FROM user"
+    command = "SELECT * FROM t_akun"
     cursor.execute(command)
     rows = cursor.fetchall()
     if len(rows) == 0:
-        print("Table User Empty")
+        print("Table t_akun Empty")
         return
     for row in rows:
         print(row)
@@ -98,9 +98,12 @@ def showUserEntries():
 def showCustomerEntries():
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = "SELECT * FROM customer"
+    command = "SELECT * FROM t_customer"
     cursor.execute(command)
     rows = cursor.fetchall()
+    if len(rows) == 0:
+        print("Table t_customer Empty")
+        return
     for row in rows:
         print(row)
     return
@@ -110,8 +113,8 @@ def getPIN(email):
     if not isEmailExist(email): return False
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = """SELECT customer.pin FROM user JOIN customer ON
-                customer.user_id = user.user_id WHERE email = ?"""
+    command = """SELECT t_customer.pin FROM t_akun JOIN t_customer ON
+                t_customer.user_id = t_akun.user_id WHERE email = ?"""
     cursor.execute(command, (email,))
     rows = cursor.fetchall()
     if len(rows) == 0: return False
@@ -123,7 +126,7 @@ def getLoginInfo(email):
     if not isEmailExist(email): return False # Mengembalikan False jika user belum terdaftar
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = """SELECT password, role FROM user WHERE email = ?"""
+    command = """SELECT password, role FROM t_akun WHERE email = ?"""
     cursor.execute(command, (email,))
     rows = cursor.fetchall()
     return rows[0] # Mengembalikan password dan role user
@@ -135,9 +138,9 @@ def getMembershipStatus(email):
     if not isEmailExist(email): return None
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = """SELECT customer.membership_status 
-                FROM user join customer
-                ON user.user_id = customer.user_id
+    command = """SELECT t_customer.membership_status 
+                FROM t_akun join t_customer
+                ON t_akun.user_id = t_customer.user_id
                 WHERE email = ?"""
     cursor.execute(command, (email,))
     rows = cursor.fetchall()
@@ -149,7 +152,7 @@ def getName(email):
     if not isEmailExist(email): return None
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = """SELECT name FROM user WHERE email = ?"""
+    command = """SELECT name FROM t_akun WHERE email = ?"""
     cursor.execute(command, (email,))
     rows = cursor.fetchall()
     return rows[0][0]

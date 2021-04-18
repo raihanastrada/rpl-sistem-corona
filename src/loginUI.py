@@ -14,55 +14,54 @@ import mainmenu
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.uic import loadUi
 
-class Login(QtWidgets.QDialog):
-    def __init__(self):
-        super(Login, self).__init__()
-        loadUi('login.ui', self)
-        self.setWindowTitle("Login Form")
-        self.btn_login.clicked.connect(self.login_clicked)
-        self.btn_register.clicked.connect(self.register_clicked)
-        self.btn_register.clicked.connect(self.close)
-
-    def clear(self):
-        self.line_email.clear()
-        self.line_password.clear()
-
-    def login_clicked(self):
-        email = self.line_email.text()
-        password = self.line_password.text()
-        if email == "" or password == "":
-            self.lbl_notification.setText("Tolong isi email dan password dengan benar")
-            return
-        if not lq.isEmailExist(email):
-            self.lbl_notification.setText("Email belum terdaftar, silahkan register")
-            self.clear()
-            return
-        loginInfo = lq.getLoginInfo(email)
-        databasePass = loginInfo[0]
-        databaseRole = loginInfo[1]
-        if password != databasePass:
-            self.lbl_notification.setText("Password salah")
-            self.clear()
-            return
-        self.clear()
-        self.close()
-        main_page = mainmenu.MainMenu(email)
-        main_page.exec_()
-        # Jika password benar, maka akan ke Main Menu
-        return
-
-    def register_clicked(self):
-        self.close()
-        register_page = rUI.Register()
-        register_page.exec_()
-        return
-
-def startLoginDialog():
-    app = QtWidgets.QApplication(sys.argv)
-    widget = Login()
-    widget.show()
-    sys.exit(app.exec_())
+def clear(dialog):
+    dialog.line_email.clear()
+    dialog.line_password.clear()
     return
 
+def login_clicked(dialog):
+    email = dialog.line_email.text()
+    password = dialog.line_password.text()
+    if email == "" or password == "":
+        dialog.lbl_notification.setText("Tolong isi email dan password dengan benar")
+        return
+    if not lq.isEmailExist(email):
+        dialog.lbl_notification.setText("Email belum terdaftar, silahkan register")
+        clear(dialog)
+        return
+    loginInfo = lq.getLoginInfo(email)
+    databasePass = loginInfo[0]
+    databaseRole = loginInfo[1]
+    if password != databasePass:
+        dialog.lbl_notification.setText("Password salah")
+        clear(dialog)
+        return
+    clear(dialog)
+    dialog.close()
+    main_page = mainmenu.MainMenuProcedural(email)
+    main_page.exec_()
+    # Jika password benar, maka akan ke Main Menu
+    return
+
+def register_clicked(dialog):
+    dialog.close()
+    register_page = rUI.RegisterProcedural()
+    register_page.exec_()
+    return
+
+def LoginProcedural():
+    dialog = QtWidgets.QDialog()
+    loadUi('login.ui', dialog)
+    dialog.setWindowTitle("Login Form")
+    dialog.btn_login.clicked.connect(lambda: login_clicked(dialog))
+    dialog.btn_register.clicked.connect(lambda: register_clicked(dialog))
+    return dialog
+
+def startLoginProcedural():
+    app = QtWidgets.QApplication(sys.argv)
+    dialog = LoginProcedural()
+    dialog.show()
+    sys.exit(app.exec_())
+
 if __name__ == "__main__":
-    startLoginDialog()
+    startLoginProcedural()
