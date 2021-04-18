@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PyQt5.uic import loadUi
+from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
+import qtawesome as qta
 import sys
 import sqlite3
 
@@ -9,7 +11,7 @@ def back():
     '''
     print("Back")
 
-def window():
+def kasusHarian():
     '''
     Main Window
     '''
@@ -19,30 +21,58 @@ def window():
     print(latestCase)
 
     app = QApplication(sys.argv)
-    win = QMainWindow()
-    win.setGeometry(300, 300, 400, 400) # xpos,ypos,width,height
+    win = QWidget()
+    loadUi('ScreenKasusHarian.ui', win)
     win.setWindowTitle("Kasus Harian COVID")
+    form = QWidget()
+    loadUi('FormUpdateKasus.ui', form)
+    form.setWindowTitle("Form Update Kasus COVID")
 
-    # Label-label buat nampilin kasus
-    label = QtWidgets.QLabel(win)
-    label.setText("kasus meninggal")
-    label.adjustSize()
-    label.move(75,75)
+    # Label-label
+    # Judul
+    newText = win.label_0.text()+" "+latestCase[0]
+    win.label_0.setText(newText)
+    win.label_0.adjustSize()
+    # Total Kasus
+    newText = latestCase[1]
+    win.label_2.setText(str(newText))
+    win.label_2.adjustSize()
+    # Jumlah Aktif
+    newText = latestCase[2]
+    win.label_4.setText(str(newText))
+    win.label_4.adjustSize()
+    # Jumlah Sembuh
+    newText = latestCase[3]
+    win.label_6.setText(str(newText))
+    win.label_6.adjustSize()
+    # Jumlah Meninggal
+    newText = latestCase[4]
+    win.label_8.setText(str(newText))
+    win.label_8.adjustSize()
 
+    # Button-button
+    # Icon
+    icon_virus = qta.icon('mdi.virus-outline',
+    color='black')
+    win.icon1.setIcon(icon_virus)
+    icon_stethoscope = qta.icon('mdi.stethoscope',
+    color='black')
+    win.icon2.setIcon(icon_stethoscope)
+    icon_hospital = qta.icon('mdi.hospital',
+    color='black')
+    win.icon3.setIcon(icon_hospital)
+    icon_skull = qta.icon('mdi.skull-outline',
+    color='black')
+    win.icon3.setIcon(icon_skull)
+    icon_doctor = qta.icon('mdi.doctor',
+    color='black')
+    win.icon4.setIcon(icon_doctor)
     # Button Back
-    b1 = QtWidgets.QPushButton(win)
-    b1.setText("Kembali")
-    b1.move(10,10)
-    b1.clicked.connect(back)
-
+    win.b1.clicked.connect(back)
     # Button Update
-    b2 = QtWidgets.QPushButton(win)
-    b2.setText("Update Kasus COVID")
-    label.adjustSize()
-    b2.move(250,250)
     entry = ("20210417",1599763,106243,1450192,43328)
-    b2.clicked.connect(lambda: updateCase(entry))
-
+    win.b2.clicked.connect(lambda: updateCaseForm(form, entry))
+    
     win.show()
     sys.exit(app.exec_())
 
@@ -50,24 +80,38 @@ def window():
 '''
 F13B6 = virus
 F13B7 = virus-outline
-F04D9 = mdi-stethoscope
+F04D9 = stethoscope
 F0FF6 = hospital -> sembuh
 F068C = skull -> meninggal
 F0BC8 = skull-outline
-F0A42 = mdi-doctor -> dirawat
+F0A42 = doctor -> dirawat
 '''
 
-def confirm_msg():
+def confirm_msg(result):
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Question)
-
+    msg.setWindowTitle("Konfirmasi Update Data COVID")
+    
     msg.setText("Apakah anda yakin ingin mengupdate data?")
     msg.addButton("Ya", QMessageBox.YesRole)
     msg.addButton("Tidak", QMessageBox.NoRole)
     msg.setDefaultButton(QMessageBox.No)
 
     res = msg.exec_()
-    return res == 0
+    if (res==0): result = True
+    
+    print("Akhir")
+    print(result)
+
+
+def error_msg(e):
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)
+    msg.setWindowTitle("Error")
+
+    msg.setText("Terdapat kesalahan saat pengisian form")
+    msg.setDetailedText(e)
+    msg.exec_()
 
 # def createdb():
 #     conn = sqlite3.connect("sistem-tracking-corona.db")
@@ -99,44 +143,98 @@ def confirm_msg():
 #     conn.commit()
 #     conn.close()
 
+def isFormFilled(filled):
+    edits = ["dateEdit", "lineEdit", "lineEdit2", "lineEdit3", "lineEdit4"]
+    
+    for el in edits:
+        if el not in filled: raise Exception("Terdapat bagian dari form yang belum terisi")
+    return True
+
+def processForm(form, filled):
+    print("test")
+    res = False
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Question)
+
+    msg.setText("Apakah anda yakin ingin mengupdate data?")
+    msg.addButton("Ya", QMessageBox.YesRole)
+    msg.addButton("Tidak", QMessageBox.NoRole)
+    msg.setDefaultButton(QMessageBox.No)
+
+    res = msg.exec_()
+    if(res==0):
+        try:
+            isFormFilled(filled)
+            print("bruh")
+            print(type(form.dateEdit.date().toPyDate()))
+            tanggal = form.dateEdit.date().toPyDate()
+            print(tanggal)
+            entry = (tanggal, int(form.lineEdit.text()), int(form.lineEdit2.text()), int(form.lineEdit3.text()), int(form.lineEdit4.text()))
+            updateCase(entry)
+
+        except Exception as e:
+            error_msg(repr(e))
+            
+    form.close()
+    
+
+def updateCaseForm(form, entry):
+    # res = False
+    form.show()
+    filled = set()
+
+    form.dateEdit.dateChanged.connect(lambda: filled.add("dateEdit"))
+    form.lineEdit.textChanged.connect(lambda: filled.add("lineEdit"))
+    form.lineEdit2.textChanged.connect(lambda: filled.add("lineEdit2"))
+    form.lineEdit3.textChanged.connect(lambda: filled.add("lineEdit3"))
+    form.lineEdit4.textChanged.connect(lambda: filled.add("lineEdit4"))
+
+    form.b1.clicked.connect(lambda: processForm(form, filled))
+
+    # if(res):
+    #     print(form.lineEdit.text())
+    #     print(type(form.lineEdit.text()))
+    #     print(form.lineEdit2.text())
+    #     print(type(form.lineEdit2.text()))
+    #     print(form.dateEdit.text())
+    #     print(type(form.dateEdit.text()))
+    #     # updateCase()
+
+    # form.close()
+
 def updateCase(entry):
     '''
     Masukin entry ke database t_harian
     '''
-    # Konfirmasi
-    if (confirm_msg()):
-        conn = sqlite3.connect("sistem-tracking-corona.db")
-        c = conn.cursor()
+    conn = sqlite3.connect("sistem-tracking-corona.db")
+    c = conn.cursor()
+    c.execute("""
+    SELECT *
+    FROM t_harian
+    WHERE tanggal = ?
+    """, (entry[0],))
+    result = c.fetchone()
+    print("Ini ngecek ada atau gak")
+    if result:
+        # Udah ada di database -> Update yang lama
+        c.execute("""
+        UPDATE t_harian SET
+        kasus_total = ?,
+        jumlah_aktif = ?,
+        jumlah_sembuh = ?,
+        jumlah_meninggal = ?
+        """, (entry[1], entry[2], entry[3], entry[4],) )
+        print("Ini dari update data")
+    else:
+        # Belom ada -> Tambahin
+        c.execute("INSERT INTO t_harian VALUES(?,?,?,?,?)", entry)
         c.execute("""
         SELECT *
         FROM t_harian
-        WHERE tanggal = ?
-        """, (entry[0],))
-        result = c.fetchone()
-        print("Ini ngecek ada atau gak")
-        if result:
-            # Udah ada di database -> Update yang lama
-            c.execute("""
-            UPDATE t_harian SET
-            kasus_total = ?,
-            jumlah_aktif = ?,
-            jumlah_sembuh = ?,
-            jumlah_meninggal = ?
-            """, (entry[1], entry[2], entry[3], entry[4],) )
-            print("Ini dari update data")
-        else:
-            # Belom ada -> Tambahin
-            c.execute("INSERT INTO t_harian VALUES(?,?,?,?,?)", entry)
-            c.execute("""
-            SELECT *
-            FROM t_harian
-            """)
-            print("Database Kasus Updated")
-        conn.commit()
-        conn.close()
-
-    else:
-        print("Ini karena ditolak")
+        """)
+        print("Database Kasus Updated")
+    conn.commit()
+    conn.close()
 
 def getLatestCase():
     conn = sqlite3.connect("sistem-tracking-corona.db")
@@ -163,4 +261,4 @@ def getLatestCase():
     '''
     return records
 
-window()
+kasusHarian()
