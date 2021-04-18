@@ -19,8 +19,8 @@ def register_clicked(dialog):
     if nama == "" or email == "" or password == "" or upin == "" or number == "":
         dialog.lbl_notification.setText("Tolong untuk mengisi seluruh bagian dengan benar")
         return
-    if len(upin) != 6 or upin.isdecimal() == False:
-        dialog.lbl_notification.setText("PIN harus merupakan angka berjumlah 6")
+    if len(upin) != 4 or upin.isdecimal() == False:
+        dialog.lbl_notification.setText("PIN harus merupakan angka berjumlah 4")
         return
     if number.isdecimal() == False:
         dialog.lbl_notification.setText("Nomor telepon harus merupakan angka")

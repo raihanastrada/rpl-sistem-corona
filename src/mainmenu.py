@@ -42,7 +42,7 @@ def MainMenu(email):
     window.btn_logout.clicked.connect(lambda: logout_clicked(window))
     text = "E-mail: " + email + "\n"
     text += "Name: " + lq.getName(email) + "\n"
-    if lq.getMembershipStatus(email) == False:
+    if lq.getMembershipStatus(email)[0] == False:
         memStatus = "Membership status: Not a member\n"
     else:
         memStatus = "Membership status: Member\n"
@@ -63,4 +63,4 @@ def startMainMenu(email):
     return
 
 if __name__ == "__main__":
-    startMainMenu('customernoler@gmail.com')
+    startMainMenu('nolercustomer@gmail.com')

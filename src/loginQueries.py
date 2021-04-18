@@ -20,9 +20,9 @@ def createCustomerDatabase():
     cursor = connection.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS
                     t_customer(user_id INTEGER PRIMARY KEY,
-                    membership_status BOOLEAN NOT NULL DEFAULT 0,
+                    membership_status DATE NOT NULL DEFAULT CURRENT_DATE,
                     PIN INTEGER NOT NULL,
-                    FOREIGN KEY (user_id) REFERENCES user(user_id)
+                    FOREIGN KEY (user_id) REFERENCES t_akun(user_id)
         )""")
     return cursor
 
@@ -60,9 +60,9 @@ def addCustomerEntry(name, email, password, number, uPIN):
     cursorUser.execute(commandUser, user)
     count = userCount() # user count
     cursorUser.connection.commit()
-    commandCustomer = """INSERT INTO t_customer(user_id, membership_status, PIN)
-                        VALUES (?, ?, ?)"""
-    customer = (count + 1, 0, uPIN)
+    commandCustomer = """INSERT INTO t_customer(user_id, PIN)
+                        VALUES (?, ?)"""
+    customer = (count + 1, uPIN)
     cursorCustomer.execute(commandCustomer, customer)
     cursorCustomer.connection.commit()
     return True
@@ -138,14 +138,15 @@ def getMembershipStatus(email):
     if not isEmailExist(email): return None
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = """SELECT t_customer.membership_status 
+    command = """SELECT t_customer.membership_status > CURRENT_DATE,
+                t_customer.membership_status
                 FROM t_akun join t_customer
                 ON t_akun.user_id = t_customer.user_id
                 WHERE email = ?"""
     cursor.execute(command, (email,))
     rows = cursor.fetchall()
     if len(rows) == 0: return None
-    return bool(rows[0][0])
+    return bool(rows[0][0]), rows[0][1]
 
 # Mengambil nama user dengan input email
 def getName(email):
@@ -162,3 +163,5 @@ if __name__ == "__main__":
     createUserDatabase()
     createCustomerDatabase()
     addAdminEntry('Admin Noler', 'adminnoler@gmail.com', 'adminnoler', 87881528377)
+    addCustomerEntry('Noler Customer', 'nolercustomer@gmail.com', 'nolercustomer', 87881528378, 2486)
+    print(getMembershipStatus('nolercustomer@gmail.com'))
