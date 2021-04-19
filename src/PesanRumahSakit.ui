@@ -966,17 +966,39 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="label_5">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Pemesanan </string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QWidget" name="widget_5" native="true">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QComboBox" name="rs_pick"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_rspick">
+             <property name="text">
+              <string>Lanjutkan</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="btn_back2">
+      <widget class="QPushButton" name="btn_back1">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -1449,7 +1471,7 @@
             <widget class="QLabel" name="label_4">
              <property name="font">
               <font>
-               <pointsize>18</pointsize>
+               <pointsize>9</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -1484,7 +1506,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="btn_back3">
+      <widget class="QPushButton" name="btn_back2">
        <property name="geometry">
         <rect>
          <x>10</x>
