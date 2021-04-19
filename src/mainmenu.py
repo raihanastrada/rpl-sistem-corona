@@ -1,7 +1,7 @@
 import sys
 import loginQueries as lq
 import loginUI as lUI
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.uic import loadUi
 
 def account_clicked(window):
@@ -46,8 +46,10 @@ def MainMenu(email):
         memStatus = "Membership status: Not a member\n"
     else:
         memStatus = "Membership status: Member\n"
+    memStatus += "Akun Customer\n"
     text += memStatus
     window.lbl_info.setText(text)
+    window.lbl_info.setAlignment(QtCore.Qt.AlignCenter)
     # Menambahkan widget (harus berurutan)
     # window.stack_widget.addWidget("""WidgetSuhu""")
     # window.stack_widget.addWidget("""WidgetHarian""")

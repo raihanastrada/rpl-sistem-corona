@@ -19,6 +19,9 @@ def register_clicked(dialog):
     if nama == "" or email == "" or password == "" or upin == "" or number == "":
         dialog.lbl_notification.setText("Tolong untuk mengisi seluruh bagian dengan benar")
         return
+    if lq.isEmailExist(email):
+        dialog.lbl_notification.setText("E-mail sudah terdaftar, silahkan login")
+        return
     if len(upin) != 4 or upin.isdecimal() == False:
         dialog.lbl_notification.setText("PIN harus merupakan angka berjumlah 4")
         return

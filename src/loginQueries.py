@@ -26,10 +26,6 @@ def createCustomerDatabase():
         )""")
     return cursor
 
-# Membuat Tabel Admin jika belum ada, mengembalikan koneksi ke admin database
-def createAdminDatabase():
-    return
-
 # Mengecek jika email sudah terdapat pada database User, jika sudah terdapat dikembalikan True, jika tidak dikembalikan False
 def isEmailExist(email):
     connectionUser = sqlite3.connect('sistem-tracking-corona.db')
@@ -158,6 +154,16 @@ def getName(email):
     rows = cursor.fetchall()
     return rows[0][0]
 
+# Mengambil id user dengan input email
+def getUserID(email):
+    if not isEmailExist(email): return None
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = "SELECT user_id FROM t_akun WHERE email = ?"
+    cursor.execute(command, (email,))
+    rows = cursor.fetchall()
+    return rows[0][0]
+
 if __name__ == "__main__":
     print("running loginQueries")
     createUserDatabase()
@@ -165,3 +171,4 @@ if __name__ == "__main__":
     addAdminEntry('Admin Noler', 'adminnoler@gmail.com', 'adminnoler', 87881528377)
     addCustomerEntry('Noler Customer', 'nolercustomer@gmail.com', 'nolercustomer', 87881528378, 2486)
     print(getMembershipStatus('nolercustomer@gmail.com'))
+    

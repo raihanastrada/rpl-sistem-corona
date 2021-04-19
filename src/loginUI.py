@@ -2,6 +2,7 @@ import sys
 import loginQueries as lq
 import registerUI as rUI
 import mainmenu
+import mainmenuAdmin
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.uic import loadUi
 
@@ -29,9 +30,12 @@ def login_clicked(dialog):
         return
     clear(dialog)
     dialog.close()
-    main_page = mainmenu.MainMenu(email)
-    main_page.show()
     # Jika password benar, maka akan ke Main Menu
+    if databaseRole == 'Customer': # Kasus akun adalah customer
+        main_page = mainmenu.MainMenu(email)
+    else: # Kasus akun adalah Admin
+        main_page = mainmenuAdmin.MainMenuAdmin(email)
+    main_page.show() # Memperlihatkan main menu
     return
 
 def register_clicked(dialog):
