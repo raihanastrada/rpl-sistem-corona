@@ -28,8 +28,6 @@ MSDeploy:
   - echo "test ms deploy"
   - cd src/
   - pyinstaller -F lintpractice.py
-  tags:
-  - DeployMS
   artifacts:
     paths:
       - src/dist/*.exe
