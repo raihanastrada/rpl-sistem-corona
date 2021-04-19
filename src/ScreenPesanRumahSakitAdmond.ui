@@ -953,17 +953,14 @@
        <widget class="QWidget" name="widget_5" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
+          <widget class="QComboBox" name="list_pesan"/>
+         </item>
+         <item>
           <widget class="QLabel" name="label_2">
            <property name="font">
             <font>
-             <pointsize>18</pointsize>
+             <pointsize>10</pointsize>
             </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel {
-	background-color: #44475a;
-	color: #ffffff
-}</string>
            </property>
            <property name="text">
             <string/>
@@ -987,14 +984,14 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QPushButton" name="btn_riwayat">
+          <widget class="QPushButton" name="btn_reject">
            <property name="text">
             <string>Reject</string>
            </property>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QPushButton" name="btn_reject">
+          <widget class="QPushButton" name="btn_riwayat">
            <property name="text">
             <string>Lihat Riwayat</string>
            </property>

@@ -5,10 +5,11 @@ import sqlite3
 import rsQueries
 
 def rs_picked(widget):
+    widget.label_5.clear()
     picked_rs = widget.rs_pick.currentText()
     email = "nolercustomer@gmail.com"
     rsQueries.addPemesananEntry(picked_rs, email)
-    widget.label_5.setText(widget.label_5.text() + "completed.")
+    widget.label_5.setText(widget.label_5.text() + "Pemesanan completed.")
     return
 
 def buatPemesananButton_clicked(widget):
