@@ -5,7 +5,7 @@ import qtawesome as qta
 import sys
 import sqlite3
 
-def kasusHarian():
+def kasusHarian(admin):
     '''
     Tampilan Kasus Harian
     '''
@@ -24,7 +24,9 @@ def kasusHarian():
 
     # Label-label
     # Judul
-    newText = win.label_0.text()+" ("+latestCase[0]+")"
+    # 2021/04/19
+    tanggal_indo = latestCase[0][8:10]+"/"+latestCase[0][5:7]+"/"+latestCase[0][0:4]
+    newText = win.label_0.text()+" ("+tanggal_indo+")"
     win.label_0.setText(newText)
     win.label_0.adjustSize()
     # Total Kasus
@@ -79,7 +81,10 @@ def kasusHarian():
     # Button Back
     win.b1.clicked.connect(back)
     # Button Update
-    win.b2.clicked.connect(formKasus)
+    if (admin):
+        win.b2.clicked.connect(formKasus)
+    else:
+        win.b2.setVisible(False)
     
     win.show()
     sys.exit(app.exec_())
@@ -97,6 +102,7 @@ def check():
     """)
 
     records = c.fetchall()
+    print("Isi Data t_harian: ")
     print(records)
 
     conn.commit()
@@ -111,7 +117,7 @@ def initTableKasus():
     c.execute('DROP TABLE IF EXISTS t_harian')
     c.execute("""
     CREATE TABLE t_harian (
-        tanggal TEXT PRIMARY KEY,
+        tanggal DATE PRIMARY KEY,
         kasus_total INT(10),
         jumlah_aktif INT(10),
         jumlah_sembuh INT(10),
@@ -253,9 +259,11 @@ def updateCase(entry):
         kasus_total = ?,
         jumlah_aktif = ?,
         jumlah_sembuh = ?,
-        jumlah_meninggal = ?
-        """, (entry[1], entry[2], entry[3], entry[4],) )
+        jumlah_meninggal = ?,
+        WHERE tanggal = ?
+        """, (entry[1], entry[2], entry[3], entry[4],entry[0],) )
         print("Ini dari update data")
+        print("Jadi gini")
     else:
         # Belom ada -> Tambahin
         c.execute("INSERT INTO t_harian VALUES(?,?,?,?,?)", entry)
@@ -266,6 +274,7 @@ def updateCase(entry):
         print("Database Kasus Updated")
     conn.commit()
     conn.close()
+    check()
 
 def getLatestCase():
     '''
@@ -295,4 +304,5 @@ def getLatestCase():
     '''
     return records
 
-# kasusHarian()
+# kasusHarian(False) # customer
+# kasusHarian(True) # admin
