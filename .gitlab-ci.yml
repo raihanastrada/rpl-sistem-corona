@@ -14,7 +14,6 @@ stages:
 pytest:
   stage: Test
   script:
-  - cd test/
   - pytest -v
 # Deploy
 MSDeploy:
