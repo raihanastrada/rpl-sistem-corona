@@ -63,7 +63,8 @@ def addSuhuEntry(id, date, temp):
 # Mengembalikan "Abnormal" jika suhu dievaluasi tidak sehat
 def evaluasiSuhu(temp):
     t_norm = 37.8
-    if (temp > t_norm):
+    t_norm_b = 27.6
+    if (temp > t_norm or temp < t_norm_b):
         return "Abnormal"
     else:
         return "Normal"
