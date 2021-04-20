@@ -8,7 +8,7 @@ def createSuhuDatabase():
         CREATE TABLE IF NOT EXISTS
         t_suhu(
             user_id INTEGER,
-            tanggal DATETIME,
+            tanggal DATE,
             suhu FLOAT NOT NULL,
             CONSTRAINT suhuKey PRIMARY KEY (user_id, tanggal),
             FOREIGN KEY (user_id) REFERENCES t_akun(user_id)
@@ -20,8 +20,9 @@ def createSuhuDatabase():
 def isSuhuExist(id, date):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
+    print(date)
     command = "SELECT user_id FROM t_suhu WHERE user_id = ? AND tanggal = ?"
-    cursor.execute(command, (id, date))
+    cursor.execute(command, (id, date.toString("yyyy-MM-dd")))
     rows = cursor.fetchall()
     return len(rows) > 0
 
@@ -30,7 +31,7 @@ def getRiwayatSuhuTubuh(id, awal, akhir):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     command = "SELECT tanggal, suhu FROM t_suhu WHERE user_id = ? AND tanggal > ? AND tanggal <= ?"
-    cursor.execute(command, (id, awal, akhir))
+    cursor.execute(command, (id, awal.toString("yyyy-MM-dd"), akhir.toString("yyyy-MM-dd")))
     rows = cursor.fetchall()
     return rows
 
@@ -49,7 +50,7 @@ def addSuhuEntry(id, date, temp):
     if (isSuhuExist(id, date)): return False
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    suhu = (id, date, temp)
+    suhu = (id, date.toString("yyyy-MM-dd"), temp)
     command = """INSERT INTO t_suhu(user_id, tanggal, suhu)
                 VALUES (?, ?, ?)"""
     cursor.execute(command, suhu)
