@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>512</width>
+    <height>252</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>161</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <item row="1" column="0">
+     <widget class="QLabel" name="inputSuhuLabel">
+      <property name="text">
+       <string>Suhu tubuh</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="inputSuhuLineEdit"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="submitSuhu">
+      <property name="text">
+       <string>Input Suhu</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="inputTanggalLabel">
+      <property name="text">
+       <string>Tanggal</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QDateEdit" name="inputTanggalDateEdit"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>50</y>
+     <width>321</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Tanggal</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Suhu</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Evaluasi</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QWidget" name="formLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>163</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="dariTanggalLabel">
+      <property name="text">
+       <string>dari Tanggal</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QDateEdit" name="dariTanggalDateEdit"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="sampaiTanggalLabel">
+      <property name="text">
+       <string>sampai Tanggal</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDateEdit" name="sampaiTanggalDateEdit"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="lihatRiwayat">
+      <property name="text">
+       <string>Lihat Riwayat</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>UserID:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="userid">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>6</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;&lt;userid&gt;&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="message">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>491</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
