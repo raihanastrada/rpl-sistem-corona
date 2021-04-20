@@ -5,7 +5,8 @@ import sys
 import suhuQueries as sQ
 
 def submitSuhu_clicked(dialog):
-    
+    dialog.message.setText("")
+
     try:
         suhu = float(dialog.inputSuhuLineEdit.text())
     except:
@@ -19,6 +20,7 @@ def submitSuhu_clicked(dialog):
     return
 
 def lihatRiwayat_clicked(dialog):
+    dialog.message.setText("")
     result = sQ.getRiwayatSuhuTubuh(int(dialog.userid.text()), dialog.dariTanggalDateEdit.date(), dialog.sampaiTanggalDateEdit.date())
     # if (not result):
     #     dialog.message.setText("Error getting temperature history")

@@ -30,7 +30,7 @@ def isSuhuExist(id, date):
 def getRiwayatSuhuTubuh(id, awal, akhir):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
-    command = "SELECT tanggal, suhu FROM t_suhu WHERE user_id = ? AND tanggal > ? AND tanggal <= ?"
+    command = "SELECT tanggal, suhu FROM t_suhu WHERE user_id = ? AND tanggal >= ? AND tanggal <= ?"
     cursor.execute(command, (id, awal.toString("yyyy-MM-dd"), akhir.toString("yyyy-MM-dd")))
     rows = cursor.fetchall()
 
