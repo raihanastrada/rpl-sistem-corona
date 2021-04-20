@@ -30,7 +30,15 @@ def screenSuhu(user_id):
 
     dialog.submitSuhu.clicked.connect(lambda: submitSuhu_clicked)
     dialog.lihatRiwayat.clicked.connect(lambda: lihatRiwayat_clicked)
+
+    return dialog
+
+def suhuMenuTest():
+    app = QtWidgets.QApplication(sys.argv)
+    dialog = screenSuhu(0)
+    dialog.show()
+    sys.exit(app.exec_())
     return
 
 if _name__ == "__main__":
-    screenSuhu(0)
+    suhuMenuTest()
