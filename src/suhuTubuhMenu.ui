@@ -145,10 +145,10 @@
   <widget class="QLabel" name="message">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>50</y>
-     <width>47</width>
-     <height>13</height>
+     <x>10</x>
+     <y>30</y>
+     <width>491</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">

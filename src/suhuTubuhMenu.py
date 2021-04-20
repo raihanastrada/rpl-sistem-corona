@@ -5,8 +5,15 @@ import sys
 import suhuQueries as sQ
 
 def submitSuhu_clicked(dialog):
-    if (not sQ.addSuhuEntry(int(dialog.userid.text()), dialog.inputTanggalDateEdit.date(), float(dialog.inputSuhuLineEdit.text()))):
-        dialog.message.setText("Error uploading to database")
+    
+    try:
+        suhu = float(dialog.inputSuhuLineEdit.text())
+    except:
+        dialog.message.setText("Suhu tidak valid")
+        return
+
+    if (not sQ.addSuhuEntry(int(dialog.userid.text()), dialog.inputTanggalDateEdit.date(), suhu)):
+        dialog.message.setText("Suhu pada tanggal tersebut sudah diisi")
     else:
         dialog.inputSuhuLineEdit.setText("")
     return
