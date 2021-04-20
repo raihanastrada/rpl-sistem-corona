@@ -22,10 +22,10 @@ def lihatRiwayat_clicked(dialog):
 
 def screenSuhu(user_id):
     dialog = QtWidgets.QDialog()
-    loadUi('suhuTubuhMenu.ui')
+    loadUi('suhuTubuhMenu.ui', dialog)
 
     dialog.setWindowTitle("Suhu Tubuh")
-    dialog.userid.setText(user_id)
+    dialog.userid.setText(str(user_id))
     dialog.inputSuhuLineEdit.setValidator(QtGui.QDoubleValidator())
 
     dialog.submitSuhu.clicked.connect(lambda: submitSuhu_clicked)
@@ -40,5 +40,5 @@ def suhuMenuTest():
     sys.exit(app.exec_())
     return
 
-if _name__ == "__main__":
+if __name__ == "__main__":
     suhuMenuTest()
