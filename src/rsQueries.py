@@ -169,6 +169,37 @@ def setPesananPaid(order_id):
     cursor.connection.commit()
     return True
 
+# Mendapatkan nama rumah sakit pada database dengan input rs_id
+def getRSName(rs_id):
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = "SELECT nama_rs FROM t_rs WHERE rs_id = ?"
+    cursor.execute(command, (rs_id,))
+    rows = cursor.fetchall()
+    return rows[0][0]
+
+# Menghapus entry pemesanan pada tabel t_prs berdasarkan order_id
+# Digunakan untuk menolak atau me-reject pemesanan
+# False jika tidak ada order_id yang sesuai, True jika berhasil dihapus
+def deletePemesananEntry(order_id):
+    if not isOrderExist(order_id): return False
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = """DELETE FROM t_prs WHERE order_id = ?"""
+    cursor.execute(command, (order_id,))
+    cursor.connection.commit()
+    return True
+
+# Mengembalikan True jika terdapat pemesanan dengan order_id = order_id dan belum direview
+# mengembalikan False jika tidak ada
+def isNotReviewed(order_id):
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = "SELECT user_id FROM t_prs WHERE order_id = ? and timestamp_review IS NULL"
+    cursor.execute(command, (order_id,))
+    rows = cursor.fetchall()
+    return len(rows) > 0
+    
 if __name__ == "__main__":
     print("running rsQueries")
     createRSDatabase()
