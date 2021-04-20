@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>50</y>
-     <width>160</width>
+     <width>161</width>
      <height>80</height>
     </rect>
    </property>
@@ -34,7 +34,7 @@
      <widget class="QLineEdit" name="inputSuhuLineEdit"/>
     </item>
     <item row="2" column="1">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="submitSuhu">
       <property name="text">
        <string>Input Suhu</string>
       </property>
@@ -82,7 +82,7 @@
     <rect>
      <x>10</x>
      <y>140</y>
-     <width>164</width>
+     <width>161</width>
      <height>80</height>
     </rect>
    </property>
@@ -108,13 +108,39 @@
      <widget class="QDateEdit" name="sampaiTanggalDateEdit"/>
     </item>
     <item row="2" column="1">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="lihatRiwayat">
       <property name="text">
        <string>Lihat Riwayat</string>
       </property>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>UserID:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="userid">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>6</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;&lt;userid&gt;&gt;</string>
+   </property>
   </widget>
  </widget>
  <resources/>
