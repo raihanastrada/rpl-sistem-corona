@@ -35,8 +35,6 @@ def getRiwayatSuhuTubuh(id, awal, akhir):
     rows = cursor.fetchall()
 
     test = getAllRiwayatSuhu(id)
-    print(test)
-    print("res", rows)
     return rows
 
 # Mengembalikan keseluruhan riwayat user dengan user_id = id
