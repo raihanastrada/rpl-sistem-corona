@@ -5,29 +5,22 @@ image: "python:3.7"
 #commands to run in the Docker container before starting each job.
 before_script:
   - python --version
-  - pip install -r requirements.txt
+  - python -m pip install -r requirements.txt
 # different stages in the pipeline
 stages:
-  - Static Analysis
   - Test
   - Deploy
-# Static Analysis
-pylint:
-  stage: Static Analysis
-  script:
-  - pylint -d C0301 src/*.py
 # Test
 pytest:
   stage: Test
   script:
-  - cd test/;pytest -v
+  - pytest -v
 # Deploy
 MSDeploy:
   stage: Deploy
   script:
   - echo "test ms deploy"
   - cd src/
-  - pyinstaller -F lintpractice.py
   artifacts:
     paths:
       - src/dist/*.exe
