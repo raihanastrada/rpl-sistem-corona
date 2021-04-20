@@ -16,7 +16,7 @@ def lihatRiwayat_clicked(dialog):
     # if (not result):
     #     dialog.message.setText("Error getting temperature history")
     # else:
-    dialog.tableWidget.setRowCount(0)
+    dialog.tableWidget.setRowCount(len(result))
     for i in range(len(result)):
         dialog.tableWidget.setItem(i, 0, QTableWidgetItem(result[i][0]))
         dialog.tableWidget.setItem(i, 1, QTableWidgetItem(str(result[i][1])))

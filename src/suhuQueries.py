@@ -33,6 +33,10 @@ def getRiwayatSuhuTubuh(id, awal, akhir):
     command = "SELECT tanggal, suhu FROM t_suhu WHERE user_id = ? AND tanggal > ? AND tanggal <= ?"
     cursor.execute(command, (id, awal.toString("yyyy-MM-dd"), akhir.toString("yyyy-MM-dd")))
     rows = cursor.fetchall()
+
+    test = getAllRiwayatSuhu(id)
+    print(test)
+    print("res", rows)
     return rows
 
 # Mengembalikan keseluruhan riwayat user dengan user_id = id
@@ -40,7 +44,7 @@ def getAllRiwayatSuhu(id):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     command = "SELECT tanggal, suhu FROM t_suhu WHERE user_id = ?"
-    cursor.execute(command, (id))
+    cursor.execute(command, (id,))
     rows = cursor.fetchall()
     return rows
 
