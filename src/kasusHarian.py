@@ -9,6 +9,7 @@ def kasusHarian(admin):
     '''
     Tampilan Kasus Harian
     '''
+    # Test
     initTableKasus()
     # createTableKasus()
     check()
