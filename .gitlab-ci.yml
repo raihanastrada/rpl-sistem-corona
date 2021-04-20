@@ -20,7 +20,7 @@ MSDeploy:
   stage: Deploy
   script:
   - echo "test ms deploy"
-  - cd src/
+  - cd test/
   artifacts:
     paths:
       - src/dist/*.exe

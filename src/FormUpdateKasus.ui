@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>536</width>
+    <height>333</height>
    </rect>
   </property>
   <property name="palette">
@@ -148,15 +148,6 @@
        </color>
       </brush>
      </colorrole>
-     <colorrole role="PlaceholderText">
-      <brush brushstyle="SolidPattern">
-       <color alpha="128">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
     </active>
     <inactive>
      <colorrole role="WindowText">
@@ -291,15 +282,6 @@
         <red>0</red>
         <green>0</green>
         <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="PlaceholderText">
-      <brush brushstyle="SolidPattern">
-       <color alpha="128">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
        </color>
       </brush>
      </colorrole>
@@ -440,15 +422,6 @@
        </color>
       </brush>
      </colorrole>
-     <colorrole role="PlaceholderText">
-      <brush brushstyle="SolidPattern">
-       <color alpha="128">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
     </disabled>
    </palette>
   </property>
@@ -466,7 +439,8 @@
    <item row="4" column="1">
     <widget class="QLineEdit" name="lineEdit3">
      <property name="styleSheet">
-      <string notr="true">color:black;</string>
+      <string notr="true">background-color: #282a36;
+color: rgb(255, 255, 255)</string>
      </property>
     </widget>
    </item>
@@ -491,7 +465,8 @@ QPushButton:hover {
    <item row="1" column="1">
     <widget class="QDateEdit" name="dateEdit">
      <property name="styleSheet">
-      <string notr="true">color:black</string>
+      <string notr="true">background-color: #282a36;
+color: rgb(255, 255, 255)</string>
      </property>
     </widget>
    </item>
@@ -505,7 +480,8 @@ QPushButton:hover {
    <item row="5" column="1">
     <widget class="QLineEdit" name="lineEdit4">
      <property name="styleSheet">
-      <string notr="true">color:black;</string>
+      <string notr="true">background-color: #282a36;
+color: rgb(255, 255, 255)</string>
      </property>
     </widget>
    </item>
@@ -519,7 +495,8 @@ QPushButton:hover {
    <item row="3" column="1">
     <widget class="QLineEdit" name="lineEdit2">
      <property name="styleSheet">
-      <string notr="true">color:black</string>
+      <string notr="true">background-color: #282a36;
+color: rgb(255, 255, 255)</string>
      </property>
     </widget>
    </item>
@@ -533,7 +510,8 @@ QPushButton:hover {
    <item row="2" column="1">
     <widget class="QLineEdit" name="lineEdit">
      <property name="styleSheet">
-      <string notr="true">color:black;</string>
+      <string notr="true">background-color: #282a36;
+color: rgb(255, 255, 255)</string>
      </property>
     </widget>
    </item>

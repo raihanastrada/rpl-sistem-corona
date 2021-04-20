@@ -1,6 +1,8 @@
 import sys
 import loginQueries as lq
 import loginUI as lUI
+import kasusHarian as kH
+import PesanRS_admond as prsA
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.uic import loadUi
 
@@ -36,8 +38,8 @@ def MainMenuAdmin(email):
     window.lbl_info.setText(text)
     window.lbl_info.setAlignment(QtCore.Qt.AlignCenter)
     # Menambahkan widget (harus berurutan)
-    # window.stack_widget.addWidget("""WidgetHarianAdmin""")
-    # window.stack_widget.addWidget("""WidgetPesanAdmin""")
+    window.stack_widget.addWidget(kH.kasusHarian(True)) # Widget harian admin
+    window.stack_widget.addWidget(prsA.screenPesanRumahSakitAdmond()) # Widget pesanan admin
     return window
 
 def startMainMenuAdmin(email):

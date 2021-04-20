@@ -105,6 +105,7 @@ def kasusHarian(admin):
 
     # Button Back
     win.b1.clicked.connect(back)
+    win.b1.setVisible(False)
     # Button Update
     if (admin):
         win.b2.clicked.connect(formKasus)

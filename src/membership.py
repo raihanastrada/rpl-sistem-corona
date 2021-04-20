@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox, QLabel
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
+import loginQueries as lq
 
 def backButton_clicked():
     # backButton on click function, back to main menu
@@ -28,7 +29,6 @@ def getMembershipStatus(email):
 
 def membershipWindow(email):
     # Tampilan awal Fitur Membership
-    app = QApplication(sys.argv)
     win = QWidget()
     loadUi('membership.ui', win)
     win.setWindowTitle("Membership")
@@ -43,11 +43,12 @@ def membershipWindow(email):
     # Button-button
     # Back Button
     win.backButton.clicked.connect(backButton_clicked)
+    win.backButton.setVisible(False)
     # Get Membership Button
     win.getMembershipButton.clicked.connect(lambda: buyMembershipWindow(email))
     
     win.show()
-    sys.exit(app.exec_())
+    return win
 
 def buyMembershipWindow(email):
     # Tampilan layar pembelian Membership
@@ -134,4 +135,7 @@ def successBuyMsg():
     msg.setText("Pembelian Membership Berhasil Dilakukan")
     msg.exec_()
 
-membershipWindow('nolercustomer@gmail.com')
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    membershipWindow('nolercustomer@gmail.com')
+    sys.exit(app.exec_())

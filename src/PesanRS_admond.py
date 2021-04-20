@@ -3,7 +3,7 @@ from PyQt5.uic import loadUi
 import sys
 import sqlite3
 import rsQueries
-# import suhuQueries
+import suhuQueries
 
 def reviewPemesananButton_clicked(widget):
     widget.stackedWidget.setCurrentIndex(1)

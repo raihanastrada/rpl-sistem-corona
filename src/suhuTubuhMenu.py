@@ -33,17 +33,17 @@ def lihatRiwayat_clicked(dialog):
     return
 
 def screenSuhu(user_id):
-    dialog = QtWidgets.QDialog()
-    loadUi('suhuTubuhMenu.ui', dialog)
+    widget = QtWidgets.QWidget()
+    loadUi('suhuTubuhMenu.ui', widget)
 
-    dialog.setWindowTitle("Suhu Tubuh")
-    dialog.userid.setText(str(user_id))
-    dialog.inputSuhuLineEdit.setValidator(QtGui.QDoubleValidator())
+    widget.setWindowTitle("Suhu Tubuh")
+    widget.userid.setText(str(user_id))
+    widget.inputSuhuLineEdit.setValidator(QtGui.QDoubleValidator())
 
-    dialog.submitSuhu.clicked.connect(lambda: submitSuhu_clicked(dialog))
-    dialog.lihatRiwayat.clicked.connect(lambda: lihatRiwayat_clicked(dialog))
+    widget.submitSuhu.clicked.connect(lambda: submitSuhu_clicked(widget))
+    widget.lihatRiwayat.clicked.connect(lambda: lihatRiwayat_clicked(widget))
 
-    return dialog
+    return widget
 
 def suhuMenuTest(userid):
     sQ.createSuhuDatabase()
