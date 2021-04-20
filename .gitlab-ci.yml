@@ -21,7 +21,6 @@ MSDeploy:
   script:
   - echo "test ms deploy"
   - cd src/
-  - python -m PyInstaller -F lintpractice.py
   artifacts:
     paths:
       - src/dist/*.exe
