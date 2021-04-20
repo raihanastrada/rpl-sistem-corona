@@ -1,8 +1,13 @@
 import sys
 import loginQueries as lq
 import loginUI as lUI
+import PesanRS as prs
+import PesanRS_admond as prsA
+import kasusHarian as kasus
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.uic import loadUi
+
+import test # TEST
 
 def account_clicked(window):
     window.stack_widget.setCurrentIndex(0)
@@ -51,10 +56,10 @@ def MainMenu(email):
     window.lbl_info.setText(text)
     window.lbl_info.setAlignment(QtCore.Qt.AlignCenter)
     # Menambahkan widget (harus berurutan)
-    # window.stack_widget.addWidget("""WidgetSuhu""")
-    # window.stack_widget.addWidget("""WidgetHarian""")
-    # window.stack_widget.addWidget("""WidgetPesan""")
-    # window.stack_widget.addWidget("""WidgetMember""")
+    window.stack_widget.addWidget(test.test()) # Widget Suhu Tubuh
+    window.stack_widget.addWidget(kasus.kasusHarian(False)) # Widget Kasus
+    window.stack_widget.addWidget(prs.screenPesanRumahSakit(email)) # Widget Pemesanan Rumah Sakit
+    window.stack_widget.addWidget(test.test()) # Widget Member
     return window
 
 def startMainMenu(email):

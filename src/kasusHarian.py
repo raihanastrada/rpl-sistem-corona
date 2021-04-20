@@ -19,7 +19,7 @@ def kasusHarian(admin):
     print("Ini Latest Case")
     print(latestCase)
 
-    app = QApplication(sys.argv)
+    # app = QApplication(sys.argv)
     win = QWidget()
     loadUi('ScreenKasusHarian.ui', win)
     win.setWindowTitle("Kasus Harian COVID")
@@ -112,7 +112,8 @@ def kasusHarian(admin):
         win.b2.setVisible(False)
         
     win.show()
-    sys.exit(app.exec_())
+    return win
+    # sys.exit(app.exec_())
 
 def check():
     '''
