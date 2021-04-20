@@ -4,25 +4,23 @@ import sys
 import sqlite3
 import rsQueries
 
-def rs_picked(widget):
+def rs_picked(widget,email):
     widget.label_5.clear()
     picked_rs = widget.rs_pick.currentText()
-    email = "nolercustomer@gmail.com"
     rsQueries.addPemesananEntry(picked_rs, email)
     widget.label_5.setText(widget.label_5.text() + "Pemesanan completed.")
     return
 
-def buatPemesananButton_clicked(widget):
+def buatPemesananButton_clicked(widget,email):
     widget.stackedWidget.setCurrentIndex(1)
     all_rs = rsQueries.getAllRS()
     for i in range(len(all_rs)):
         widget.rs_pick.addItem(all_rs[i][1])
-    widget.btn_rspick.clicked.connect(lambda: rs_picked(widget))
+    widget.btn_rspick.clicked.connect(lambda: rs_picked(widget,email))
     return 
 
-def lihatPemesananButton_clicked(widget):
+def lihatPemesananButton_clicked(widget,email):
     widget.stackedWidget.setCurrentIndex(2)
-    email = "nolercustomer@gmail.com"
     email_pesanan = rsQueries.getOngoingPesananUser(email)
     if (not email_pesanan):
         widget.label_4.setText(widget.label_4.text() + " anda ditolak atau tidak tercatat")
@@ -44,19 +42,20 @@ def bayarButton_clicked():
     print("bayar clicked but not implemented")
     return
 
-def screenPesanRumahSakit():
+def screenPesanRumahSakit(email):
     widget = QtWidgets.QWidget()
     loadUi('PesanRumahSakit.ui', widget)
     widget.setWindowTitle(" Pemesanan Rumah Sakit ")
-    widget.btn_buat.clicked.connect(lambda: buatPemesananButton_clicked(widget))
-    widget.btn_lihat.clicked.connect(lambda: lihatPemesananButton_clicked(widget))
+    widget.btn_buat.clicked.connect(lambda: buatPemesananButton_clicked(widget,email))
+    widget.btn_lihat.clicked.connect(lambda: lihatPemesananButton_clicked(widget,email))
     widget.btn_back1.clicked.connect(lambda: mainButton_clicked(widget))
     widget.btn_back2.clicked.connect(lambda: mainButton_clicked(widget))
     return widget
 
 def main_test():
     app = QtWidgets.QApplication(sys.argv)
-    widget = screenPesanRumahSakit()
+    email = "nolercustomer@gmail.com"
+    widget = screenPesanRumahSakit(email)
     widget.show()
     sys.exit(app.exec_())
     return
