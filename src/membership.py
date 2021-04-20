@@ -134,4 +134,4 @@ def successBuyMsg():
     msg.setText("Pembelian Membership Berhasil Dilakukan")
     msg.exec_()
 
-# membershipWindow('nolercustomer@gmail.com')
+membershipWindow('nolercustomer@gmail.com')
