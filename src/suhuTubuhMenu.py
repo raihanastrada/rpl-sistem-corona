@@ -45,15 +45,16 @@ def screenSuhu(user_id):
 
     return dialog
 
-def suhuMenuTest():
+def suhuMenuTest(userid):
     sQ.createSuhuDatabase()
     app = QtWidgets.QApplication(sys.argv)
 
     ### UBAH PAS DEPLOY
-    dialog = screenSuhu(0)
+    dialog = screenSuhu(userid)
     dialog.show()
     sys.exit(app.exec_())
     return
 
 if __name__ == "__main__":
-    suhuMenuTest()
+    ### SET USER ID PLS
+    suhuMenuTest() 
