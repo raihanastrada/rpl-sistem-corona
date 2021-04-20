@@ -31,6 +31,7 @@ import sqlite3
 
 # Menampilkan Kasus Harian
 def test_61():
+    initTableKasus()
     '''
     Mengecek apakah program dapat mengambil
     kasus terakhir pada database
@@ -52,6 +53,7 @@ def test_61():
     case = getLatestCase()
 
     assert(answer==case)
+    initTableKasus()
 
 dummy_entry_na = ('9999-99-99',0,0,0,0)
 dummy_entry_a = ("2021-04-16",1,1,1,1)
