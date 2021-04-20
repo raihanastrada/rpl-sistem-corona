@@ -48,6 +48,8 @@ def screenSuhu(user_id):
 def suhuMenuTest():
     sQ.createSuhuDatabase()
     app = QtWidgets.QApplication(sys.argv)
+
+    ### UBAH PAS DEPLOY
     dialog = screenSuhu(0)
     dialog.show()
     sys.exit(app.exec_())
