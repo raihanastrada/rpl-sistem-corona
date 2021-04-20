@@ -9,7 +9,8 @@ def kasusHarian(admin):
     '''
     Tampilan Kasus Harian
     '''
-    # initTableKasus()
+    initTableKasus()
+    # createTableKasus()
     check()
 
     # Mengakses kasus terakhir
@@ -25,26 +26,49 @@ def kasusHarian(admin):
     # Label-label
     # Judul
     # 2021/04/19
-    tanggal_indo = latestCase[0][8:10]+"/"+latestCase[0][5:7]+"/"+latestCase[0][0:4]
-    newText = win.label_0.text()+" ("+tanggal_indo+")"
-    win.label_0.setText(newText)
-    win.label_0.adjustSize()
-    # Total Kasus
-    newText = latestCase[1]
-    win.label_2.setText(str(newText))
-    win.label_2.adjustSize()
-    # Jumlah Aktif
-    newText = latestCase[2]
-    win.label_4.setText(str(newText))
-    win.label_4.adjustSize()
-    # Jumlah Sembuh
-    newText = latestCase[3]
-    win.label_6.setText(str(newText))
-    win.label_6.adjustSize()
-    # Jumlah Meninggal
-    newText = latestCase[4]
-    win.label_8.setText(str(newText))
-    win.label_8.adjustSize()
+    if not latestCase:
+        win.label_2.setText("-")
+        win.label_2.adjustSize()
+
+        win.label_4.setText("-")
+        win.label_4.adjustSize()
+
+        win.label_6.setText("-")
+        win.label_6.adjustSize()
+
+        win.label_8.setText("-")
+        win.label_8.adjustSize()
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setWindowTitle("Error")
+
+        text = "tunggu admin memperbarui data kasus harian"
+        if (admin):
+            text = "Update Kasus Harian"
+        msg.setText("Tidak terdapat kasus harian, " + text)
+        msg.exec_()
+    else:
+        tanggal_indo = latestCase[0][8:10]+"/"+latestCase[0][5:7]+"/"+latestCase[0][0:4]
+        newText = win.label_0.text()+" ("+tanggal_indo+")"
+        win.label_0.setText(newText)
+        win.label_0.adjustSize()
+        # Total Kasus
+        newText = latestCase[1]
+        win.label_2.setText(str(newText))
+        win.label_2.adjustSize()
+        # Jumlah Aktif
+        newText = latestCase[2]
+        win.label_4.setText(str(newText))
+        win.label_4.adjustSize()
+        # Jumlah Sembuh
+        newText = latestCase[3]
+        win.label_6.setText(str(newText))
+        win.label_6.adjustSize()
+        # Jumlah Meninggal
+        newText = latestCase[4]
+        win.label_8.setText(str(newText))
+        win.label_8.adjustSize()
 
     # Button-button
     # Icons
@@ -57,7 +81,7 @@ def kasusHarian(admin):
     # F0BC8 = skull-outline
     # F0A42 = doctor -> dirawat
     # '''
-    
+        
     icon_virus = qta.icon('mdi.virus-outline',
     color='maroon')
     win.icon1.setIcon(icon_virus)
@@ -85,7 +109,7 @@ def kasusHarian(admin):
         win.b2.clicked.connect(formKasus)
     else:
         win.b2.setVisible(False)
-    
+        
     win.show()
     sys.exit(app.exec_())
 
@@ -104,6 +128,26 @@ def check():
     records = c.fetchall()
     print("Isi Data t_harian: ")
     print(records)
+
+    conn.commit()
+    conn.close()
+
+def createTableKasus():
+    '''
+    Membuat tabel kasus harian kosong pada database
+    '''
+    conn = sqlite3.connect("sistem-tracking-corona.db")
+    c = conn.cursor()
+    c.execute('DROP TABLE IF EXISTS t_harian')
+    c.execute("""
+    CREATE TABLE t_harian (
+        tanggal DATE PRIMARY KEY,
+        kasus_total INT(10),
+        jumlah_aktif INT(10),
+        jumlah_sembuh INT(10),
+        jumlah_meninggal INT(10)
+    );
+    """)
 
     conn.commit()
     conn.close()
@@ -129,7 +173,8 @@ def initTableKasus():
     VALUES
         ("2021-04-16",1594722,107297,1444229,43196),
         ("2021-04-17",1599763,106243,1450192,43328),
-        ('2021-04-18', 1604348, 105859, 1455065, 43424);
+        ('2021-04-18',1604348,105859,1455065,43424),
+        ('2021-04-19',1609300,104319,1461414,43567);
     """)
 
     conn.commit()
@@ -254,24 +299,38 @@ def updateCase(entry):
     print("Ini ngecek ada atau gak")
     if result:
         # Udah ada di database -> Update yang lama
-        c.execute("""
-        UPDATE t_harian SET
-        kasus_total = ?,
-        jumlah_aktif = ?,
-        jumlah_sembuh = ?,
-        jumlah_meninggal = ?,
-        WHERE tanggal = ?
-        """, (entry[1], entry[2], entry[3], entry[4],entry[0],) )
-        print("Ini dari update data")
-        print("Jadi gini")
+        try:
+            int(entry[1])
+            int(entry[2])
+            int(entry[3])
+            int(entry[4])
+            c.execute("""
+            UPDATE t_harian SET
+            kasus_total = ?,
+            jumlah_aktif = ?,
+            jumlah_sembuh = ?,
+            jumlah_meninggal = ?,
+            WHERE tanggal = ?
+            """, (entry[1], entry[2], entry[3], entry[4],entry[0],) )
+            print("Ini dari update data")
+            print("Jadi gini")
+        except:
+            print("")
     else:
         # Belom ada -> Tambahin
-        c.execute("INSERT INTO t_harian VALUES(?,?,?,?,?)", entry)
-        c.execute("""
-        SELECT *
-        FROM t_harian
-        """)
-        print("Database Kasus Updated")
+        try:
+            int(entry[1])
+            int(entry[2])
+            int(entry[3])
+            int(entry[4])
+            c.execute("INSERT INTO t_harian VALUES(?,?,?,?,?)", entry)
+            c.execute("""
+            SELECT *
+            FROM t_harian
+            """)
+            print("Database Kasus Updated")
+        except:
+            print("")
     conn.commit()
     conn.close()
     check()
@@ -304,5 +363,6 @@ def getLatestCase():
     '''
     return records
 
+# DEBUG
 # kasusHarian(False) # customer
 # kasusHarian(True) # admin
