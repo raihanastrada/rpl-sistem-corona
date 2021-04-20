@@ -30,7 +30,7 @@ import sqlite3
 #     assert (compiled)
 
 # Menampilkan Kasus Harian
-def test6_1():
+def test_61():
     '''
     Mengecek apakah program dapat mengambil
     kasus terakhir pada database
@@ -60,7 +60,7 @@ dummy_entry_err2 = ("9999-99-99","None","None","None","None")
 
 # Update Kasus Harian
 # Nambah di database
-def test7_1():
+def test_71():
     '''
     Mengecek apakah program dapat 
     menambahkan entri ke database, 
@@ -97,7 +97,7 @@ def test7_1():
     initTableKasus()
 
 # Kasus sudah terdapat di database
-def test7_2():
+def test_72():
     '''
     Mengecek apakah program dapat 
     menambahkan entri ke database, 
@@ -132,7 +132,7 @@ def test7_2():
     initTableKasus()
 
 # Kasus pengisian form belum selesai
-def test7_3():
+def test_73():
     initTableKasus()
     conn = sqlite3.connect("sistem-tracking-corona.db")
     c = conn.cursor()
@@ -164,7 +164,7 @@ def test7_3():
     initTableKasus()
 
 # Kasus pengisian form tidak memasukkan angka
-def test7_4():
+def test_74():
     initTableKasus()
     conn = sqlite3.connect("sistem-tracking-corona.db")
     c = conn.cursor()
