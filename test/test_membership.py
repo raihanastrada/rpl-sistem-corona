@@ -6,7 +6,6 @@ import sqlite3
 import loginQueries as lq
 import initializedatabase as initd
 import datetime
-from dateutil.relativedelta import relativedelta
 
 def test_init():
     initd.initializeDatabase()
