@@ -8,19 +8,12 @@ before_script:
   - python -m pip install -r requirements.txt
 # different stages in the pipeline
 stages:
-  - Static Analysis
   - Test
   - Deploy
-# Static Analysis
-pylint:
-  stage: Static Analysis
-  script:
-  - pylint -d C0301 src/*.py
 # Test
 pytest:
   stage: Test
   script:
-  - cd test/
   - pytest -v
 # Deploy
 MSDeploy:
@@ -28,7 +21,9 @@ MSDeploy:
   script:
   - echo "test ms deploy"
   - cd src/
-  - python -m PyInstaller -F lintpractice.py
+  - pyinstaller -F CoronaApp.py
   artifacts:
     paths:
       - src/dist/*.exe
+      - src/screens
+      - ../img/*.png
