@@ -10,7 +10,7 @@ def kasusHarian(admin):
     Tampilan Kasus Harian
     '''
     # Test
-    initTableKasus()
+    # initTableKasus()
     # createTableKasus()
     check()
 
@@ -21,7 +21,7 @@ def kasusHarian(admin):
 
     # app = QApplication(sys.argv)
     win = QWidget()
-    loadUi('ScreenKasusHarian.ui', win)
+    loadUi('screens/KasusHarianScreen.ui', win)
     win.setWindowTitle("Kasus Harian COVID")
 
     # Label-label
@@ -104,7 +104,7 @@ def kasusHarian(admin):
     win.icon3.setIconSize(QtCore.QSize(30,30))
 
     # Button Back
-    win.b1.clicked.connect(back)
+    # win.b1.clicked.connect(back)
     win.b1.setVisible(False)
     # Button Update
     if (admin):
@@ -183,20 +183,20 @@ def initTableKasus():
     conn.commit()
     conn.close()
 
-def back():
-    '''
-    b1 on click function, back to main menu
-    '''
-    widget = QWidget()
-    loadUi('mainDialog.ui', widget)
-    return widget
+# def back():
+#     '''
+#     b1 on click function, back to main menu
+#     '''
+#     widget = QWidget()
+#     loadUi('mainDialog.ui', widget)
+#     return widget
 
 def formKasus():
     '''
     Tampilan form untuk memperbarui kasus
     '''
     form = QWidget()
-    loadUi('FormUpdateKasus.ui', form)
+    loadUi('screens/UpdateKasusScreen.ui', form)
     form.setWindowTitle("Form Update Kasus COVID")
     filled = set()
 
@@ -219,7 +219,13 @@ def processForm(form, filled):
     if(res==0):
         try:
             isFormFilled(filled)
+            print("awal")
+            print(form.dateEdit.date())
+            print(type(form.dateEdit.date()))
             tanggal = form.dateEdit.date().toPyDate()
+            print("akhir")
+            print(tanggal)
+            print(type(tanggal))
             entry = (tanggal, int(form.lineEdit.text()), int(form.lineEdit2.text()), int(form.lineEdit3.text()), int(form.lineEdit4.text()))
             print("Memasukkan data",end=" ")
             print(entry)
@@ -273,7 +279,8 @@ def error_msg(e):
     msg.setWindowTitle("Error")
 
     msg.setText("Terdapat kesalahan saat pengisian form")
-    msg.setDetailedText(e)
+    if (e.ValueError):
+        msg.setDetailedText("TEST")
     msg.exec_()
 
 def notif_msg():

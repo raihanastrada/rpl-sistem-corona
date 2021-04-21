@@ -36,7 +36,7 @@ def register_clicked(dialog):
 
 def Register():
     dialog = QtWidgets.QDialog()
-    loadUi('register.ui', dialog)
+    loadUi('screens/RegistrationScreen.ui', dialog)
     dialog.setWindowTitle("Register Form")
     dialog.btn_login.clicked.connect(lambda: login_clicked(dialog))
     dialog.btn_register.clicked.connect(lambda: register_clicked(dialog))

@@ -6,12 +6,12 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
 import loginQueries as lq
 
-def backButton_clicked():
-    # backButton on click function, back to main menu
-    print("backButton clicked")
-    widget = QWidget()
-    loadUi('mainDialog.ui', widget)
-    return widget
+# def backButton_clicked():
+#     # backButton on click function, back to main menu
+#     print("backButton clicked")
+#     widget = QWidget()
+#     loadUi('mainDialog.ui', widget)
+#     return widget
 
 def getMembershipStatus(email):
     # if not isEmailExist(email): return "None", "None"
@@ -30,7 +30,7 @@ def getMembershipStatus(email):
 def membershipWindow(email):
     # Tampilan awal Fitur Membership
     win = QWidget()
-    loadUi('membership.ui', win)
+    loadUi('screens/MembershipScreen.ui', win)
     win.setWindowTitle("Membership")
 
     # Label-label
@@ -42,7 +42,7 @@ def membershipWindow(email):
 
     # Button-button
     # Back Button
-    win.backButton.clicked.connect(backButton_clicked)
+    # win.backButton.clicked.connect(backButton_clicked)
     win.backButton.setVisible(False)
     # Get Membership Button
     win.getMembershipButton.clicked.connect(lambda: buyMembershipWindow(email))
@@ -53,7 +53,7 @@ def membershipWindow(email):
 def buyMembershipWindow(email):
     # Tampilan layar pembelian Membership
     form = QWidget()
-    loadUi('buyMembership.ui', form)
+    loadUi('screens/BuyMembershipScreen.ui', form)
     form.setWindowTitle("Buy Membership")
     filled = set()
 

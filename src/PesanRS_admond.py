@@ -66,7 +66,7 @@ def backButton1_clicked(widget):
 
 def screenPesanRumahSakitAdmond():
     widget = QtWidgets.QWidget()
-    loadUi('ScreenPesanRumahSakitAdmond.ui', widget)
+    loadUi('screens/PesanRumahSakitAdmondScreen.ui', widget)
     widget.setWindowTitle(" Pemesanan Rumah Sakit for Admondo")
     widget.btn_review.clicked.connect(lambda: reviewPemesananButton_clicked(widget))
     widget.btn_acc.clicked.connect(lambda: acceptButton_clicked(widget))
