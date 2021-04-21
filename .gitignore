@@ -13,3 +13,7 @@ src/test_mainui.ui
 src/test.py
 src/test.ui
 __pycache__/*
+test/__pycache__/*
+test/.pytest_cache/*
+test/*.db
+src/main.py
