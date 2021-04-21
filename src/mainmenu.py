@@ -39,7 +39,10 @@ def logout_clicked(window):
 
 def MainMenu(email):
     window = QtWidgets.QMainWindow()
-    loadUi('../screens/MainCustomerScreen.ui', window)
+    try:
+        loadUi('../screens/MainCustomerScreen.ui', window)
+    except:
+        loadUi('screens/MainCustomerScreen.ui', window)
     window.setWindowTitle("Sistem Tracking Corona Menu")
     window.btn_account.clicked.connect(lambda: account_clicked(window))
     window.btn_suhu.clicked.connect(lambda: suhu_clicked(window))

@@ -30,7 +30,10 @@ def getMembershipStatus(email):
 def membershipWindow(email):
     # Tampilan awal Fitur Membership
     win = QWidget()
-    loadUi('../screens/MembershipScreen.ui', win)
+    try:
+        loadUi('../screens/MembershipScreen.ui', win)
+    except:
+        loadUi('screens/MembershipScreen.ui', win)
     win.setWindowTitle("Membership")
 
     # Label-label
@@ -53,7 +56,10 @@ def membershipWindow(email):
 def buyMembershipWindow(email):
     # Tampilan layar pembelian Membership
     form = QWidget()
-    loadUi('../screens/BuyMembershipScreen.ui', form)
+    try:
+        loadUi('../screens/BuyMembershipScreen.ui', form)
+    except:
+        loadUi('screens/BuyMembershipScreen.ui', form)
     form.setWindowTitle("Buy Membership")
     filled = set()
 

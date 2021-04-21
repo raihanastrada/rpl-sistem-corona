@@ -22,7 +22,10 @@ def kasusHarian(admin):
 
     # app = QApplication(sys.argv)
     win = QWidget()
-    loadUi('../screens/KasusHarianScreen.ui', win)
+    try:
+        loadUi('../screens/KasusHarianScreen.ui', win)
+    except:
+        loadUi('screens/KasusHarianScreen.ui', win)
     win.setWindowTitle("Kasus Harian COVID")
 
     # Label-label

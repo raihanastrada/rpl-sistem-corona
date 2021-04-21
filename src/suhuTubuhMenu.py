@@ -34,7 +34,10 @@ def lihatRiwayat_clicked(dialog):
 
 def screenSuhu(user_id):
     widget = QtWidgets.QWidget()
-    loadUi('../screens/SuhuTubuhMenuScreen.ui', widget)
+    try:
+        loadUi('../screens/SuhuTubuhMenuScreen.ui', widget)
+    except:
+        loadUi('screens/SuhuTubuhMenuScreen.ui', widget)
 
     widget.setWindowTitle("Suhu Tubuh")
     widget.userid.setText(str(user_id))
