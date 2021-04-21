@@ -10,7 +10,7 @@ def formKasus():
     Tampilan form untuk memperbarui kasus
     '''
     form = QWidget()
-    loadUi('screens/UpdateKasusScreen.ui', form)
+    loadUi('../screens/UpdateKasusScreen.ui', form)
     form.setWindowTitle("Form Update Kasus COVID")
     filled = set()
 
