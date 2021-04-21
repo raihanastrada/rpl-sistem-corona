@@ -6,13 +6,6 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
 import loginQueries as lq
 
-# def backButton_clicked():
-#     # backButton on click function, back to main menu
-#     print("backButton clicked")
-#     widget = QWidget()
-#     loadUi('mainDialog.ui', widget)
-#     return widget
-
 def getMembershipStatus(email):
     # if not isEmailExist(email): return "None", "None"
     connection = sqlite3.connect('sistem-tracking-corona.db')
@@ -48,12 +41,12 @@ def membershipWindow(email):
     # win.backButton.clicked.connect(backButton_clicked)
     win.backButton.setVisible(False)
     # Get Membership Button
-    win.getMembershipButton.clicked.connect(lambda: buyMembershipWindow(email))
+    win.getMembershipButton.clicked.connect(lambda: buyMembershipWindow(email, win))
     
     win.show()
     return win
 
-def buyMembershipWindow(email):
+def buyMembershipWindow(email, win):
     # Tampilan layar pembelian Membership
     form = QWidget()
     try:
@@ -64,11 +57,11 @@ def buyMembershipWindow(email):
     filled = set()
 
     form.lineEdit.textChanged.connect(lambda: filled.add("lineEdit"))
-    form.buyButton.clicked.connect(lambda: processBuyMembership(email, form, filled))
+    form.buyButton.clicked.connect(lambda: processBuyMembership(email, form, filled, win))
     
     form.show()
 
-def processBuyMembership(email, form, filled):
+def processBuyMembership(email, form, filled, win):
     res = confirmBuyMsg()
     # print(res)
     if(res == 0):
@@ -82,6 +75,9 @@ def processBuyMembership(email, form, filled):
             form.lineEdit.clear()
             filled.clear()
             form.close()
+
+            records = getMembershipStatus(email)
+            win.status_Label.setText(str(records[0]))
 
         except Exception as e:
             errorBuyMsg(repr(e))
@@ -143,5 +139,5 @@ def successBuyMsg():
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    membershipWindow('nolercustomer@gmail.com')
+    membershipWindow('customernoler@gmail.com')
     sys.exit(app.exec_())
