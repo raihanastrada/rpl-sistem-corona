@@ -52,7 +52,7 @@ Sistem Tracking Corona adalah sebuah aplikasi dekstop untuk platform OS Windows.
 
 6.1 Tampilan Mengulas Pesanan Rumah Sakit untuk Admin
     <br>
-    <img src="doc/AdminPesan.png" alt="pesanadmin" width="250">
+    <img src="doc/AdminPemesanan.png" alt="pesanadmin" width="250">
 
 
 6.2. Tampilan Kasus Harian COVID untuk Admin
