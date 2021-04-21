@@ -116,8 +116,8 @@ def addRSEntry(nama_rs, alamat_rs):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     rs = (nama_rs, alamat_rs)
-    command = """INSERT INTO t_rs(nama_rs, alamat_rs, timestamp_pesan)
-                VALUES (?, ?, ?)"""
+    command = """INSERT INTO t_rs(nama_rs, alamat_rs)
+                VALUES (?, ?)"""
     cursor.execute(command, rs)
     cursor.connection.commit()
     return True
