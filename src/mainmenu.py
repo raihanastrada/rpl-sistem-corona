@@ -11,7 +11,17 @@ from PyQt5.uic import loadUi
 
 import test # TEST
 
-def account_clicked(window):
+def account_clicked(window, email):
+    text = "E-mail: " + email + "\n"
+    text += "Name: " + lq.getName(email) + "\n"
+    if lq.getMembershipStatus(email)[0] == False:
+        memStatus = "Membership status: Not a member\n"
+    else:
+        memStatus = "Membership status: Member\n"
+    memStatus += "Akun Customer\n"
+    text += memStatus
+    window.lbl_info.setText(text)
+    window.lbl_info.setAlignment(QtCore.Qt.AlignCenter)
     window.stack_widget.setCurrentIndex(0)
     return
 
@@ -44,7 +54,7 @@ def MainMenu(email):
     except:
         loadUi('screens/MainCustomerScreen.ui', window)
     window.setWindowTitle("Sistem Tracking Corona Menu")
-    window.btn_account.clicked.connect(lambda: account_clicked(window))
+    window.btn_account.clicked.connect(lambda: account_clicked(window, email))
     window.btn_suhu.clicked.connect(lambda: suhu_clicked(window))
     window.btn_harian.clicked.connect(lambda: harian_clicked(window))
     window.btn_pesan.clicked.connect(lambda: pesan_clicked(window))
