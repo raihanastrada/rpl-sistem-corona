@@ -50,12 +50,32 @@ def isNameExist(name):
     rows = cursor.fetchall()
     return len(rows) > 0
 
+# Mengembalikan True jika terdapat pemesanan dengan user_id = id pada database
+# Mengembalikan False jika tidak terdapat
+def isUserExist(id):
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = "SELECT * FROM t_prs WHERE user_id = ?"
+    cursor.execute(command, (id,))
+    rows = cursor.fetchall()
+    return len(rows) > 0
+
 # Mengembalikan True jika terdapat pemesanan dengan order_id = order_id pada database
 # Mengembalikan False jika tidak terdapat
 def isOrderExist(order_id):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     command = "SELECT user_id FROM t_prs WHERE order_id = ?"
+    cursor.execute(command, (order_id,))
+    rows = cursor.fetchall()
+    return len(rows) > 0
+
+# Mengembalikan True jika terdapat pemesanan dengan order_id = order_id dan belum direview
+# mengembalikan False jika tidak ada
+def isNotReviewed(order_id):
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = "SELECT user_id FROM t_prs WHERE order_id = ? and timestamp_review IS NULL"
     cursor.execute(command, (order_id,))
     rows = cursor.fetchall()
     return len(rows) > 0
@@ -79,6 +99,15 @@ def getRSID(nama_rs):
     rows = cursor.fetchall()
     return rows[0][0]
 
+# Mengembalikan nama_rs dengan input rs_id yang terdapat dalam database
+def getRSName(rs_id):
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = "SELECT nama_rs FROM t_rs WHERE rs_id = ?"
+    cursor.execute(command, (rs_id,))
+    rows = cursor.fetchall()
+    return rows[0][0]
+
 # Menambahkan data pada tabel t_rs pada database
 # Input nama_rs dan alamat_rs dengan default status 1
 def addRSEntry(nama_rs, alamat_rs):
@@ -87,8 +116,8 @@ def addRSEntry(nama_rs, alamat_rs):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     rs = (nama_rs, alamat_rs)
-    command = """INSERT INTO t_rs(nama_rs, alamat_rs)
-                VALUES (?, ?)"""
+    command = """INSERT INTO t_rs(nama_rs, alamat_rs, timestamp_pesan)
+                VALUES (?, ?, ?)"""
     cursor.execute(command, rs)
     cursor.connection.commit()
     return True
@@ -101,12 +130,26 @@ def addPemesananEntry(nama_rs, email):
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     user_id = lq.getUserID(email)
+    if isUserExist(user_id): return False
     rs_id = getRSID(nama_rs)
     add = (user_id, rs_id)
     print(add)
     command = """INSERT INTO t_prs(user_id, rs_id)
                 VALUES (?, ?)"""
     cursor.execute(command, add)
+    cursor.connection.commit()
+    return True
+
+# Menghapus entry pemesanan pada tabel t_prs berdasarkan order_id
+# Digunakan untuk menolak atau me-reject pemesanan
+# False jika tidak ada order_id yang sesuai, True jika berhasil dihapus
+def deletePemesananEntry(order_id):
+    if not isOrderExist(order_id): return False
+    if not isNotReviewed(order_id): return False
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = """DELETE FROM t_prs WHERE order_id = ?"""
+    cursor.execute(command, (order_id,))
     cursor.connection.commit()
     return True
 
@@ -142,15 +185,30 @@ def setPesananReviewed(order_id):
     cursor.connection.commit()
     return True
 
-# Mendapatkan pesanan user yang sedang dalam proses (proses review atau belum dibayar)
-# Mengembalikan False jika tidak terdapat pesanan yang sedang dalam proses
+# Mendapatkan pesanan user yang sedang dalam proses review
+# Mengembalikan False jika tidak terdapat pesanan yang sedang dalam proses review
 def getOngoingPesananUser(email):
     if not lq.isEmailExist(email): return False
     uid = lq.getUserID(email)
     connection = sqlite3.connect('sistem-tracking-corona.db')
     cursor = connection.cursor()
     command = """SELECT * FROM t_prs
-                WHERE timestamp_pembayaran IS NULL 
+                WHERE timestamp_review IS NULL
+                AND user_id = ?"""
+    cursor.execute(command, (uid,))
+    rows = cursor.fetchall()
+    if len(rows) == 0: return False
+    return rows
+
+# Mendapatkan pesanan user yang sudah direview
+# Mengembalikan False jika tidak terdapat pesanan yang sudah direview
+def getReviewedPesananUser(email):
+    if not lq.isEmailExist(email): return False
+    uid = lq.getUserID(email)
+    connection = sqlite3.connect('sistem-tracking-corona.db')
+    cursor = connection.cursor()
+    command = """SELECT * FROM t_prs
+                WHERE timestamp_review IS NOT NULL
                 AND user_id = ?"""
     cursor.execute(command, (uid,))
     rows = cursor.fetchall()
@@ -169,37 +227,6 @@ def setPesananPaid(order_id):
     cursor.connection.commit()
     return True
 
-# Mendapatkan nama rumah sakit pada database dengan input rs_id
-def getRSName(rs_id):
-    connection = sqlite3.connect('sistem-tracking-corona.db')
-    cursor = connection.cursor()
-    command = "SELECT nama_rs FROM t_rs WHERE rs_id = ?"
-    cursor.execute(command, (rs_id,))
-    rows = cursor.fetchall()
-    return rows[0][0]
-
-# Menghapus entry pemesanan pada tabel t_prs berdasarkan order_id
-# Digunakan untuk menolak atau me-reject pemesanan
-# False jika tidak ada order_id yang sesuai, True jika berhasil dihapus
-def deletePemesananEntry(order_id):
-    if not isOrderExist(order_id): return False
-    connection = sqlite3.connect('sistem-tracking-corona.db')
-    cursor = connection.cursor()
-    command = """DELETE FROM t_prs WHERE order_id = ?"""
-    cursor.execute(command, (order_id,))
-    cursor.connection.commit()
-    return True
-
-# Mengembalikan True jika terdapat pemesanan dengan order_id = order_id dan belum direview
-# mengembalikan False jika tidak ada
-def isNotReviewed(order_id):
-    connection = sqlite3.connect('sistem-tracking-corona.db')
-    cursor = connection.cursor()
-    command = "SELECT user_id FROM t_prs WHERE order_id = ? and timestamp_review IS NULL"
-    cursor.execute(command, (order_id,))
-    rows = cursor.fetchall()
-    return len(rows) > 0
-    
 if __name__ == "__main__":
     print("running rsQueries")
     createRSDatabase()

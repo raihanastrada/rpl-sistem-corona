@@ -9,6 +9,7 @@ def reviewPemesananButton_clicked(widget):
     widget.stackedWidget.setCurrentIndex(1)
     not_reviewed = rsQueries.getAllPesananNotReviewed()
     if (not not_reviewed):
+        print("Tidak ada pemesanan untuk direview")
         widget.stackedWidget.setCurrentIndex(0)
     else:
         for i in range(len(not_reviewed)):
