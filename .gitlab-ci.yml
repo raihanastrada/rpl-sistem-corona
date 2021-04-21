@@ -20,7 +20,8 @@ MSDeploy:
   stage: Deploy
   script:
   - echo "test ms deploy"
-  - cd test/
+  - cd src/
+  - pyinstaller -F CoronaApp.py
   artifacts:
     paths:
       - src/dist/*.exe
