@@ -2,6 +2,7 @@ import pytest
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from kasusHarian import *
+from formKasusHarian import *
 import sqlite3
 
 # # Kasus Harian
@@ -30,7 +31,7 @@ import sqlite3
 #     assert (compiled)
 
 # Menampilkan Kasus Harian
-def test_61():
+def test_mengambil_kasus():
     initTableKasus()
     '''
     Mengecek apakah program dapat mengambil
@@ -62,7 +63,7 @@ dummy_entry_err2 = ("9999-99-99","None","None","None","None")
 
 # Update Kasus Harian
 # Nambah di database
-def test_71():
+def test_update_belomada():
     '''
     Mengecek apakah program dapat 
     menambahkan entri ke database, 
@@ -99,7 +100,7 @@ def test_71():
     initTableKasus()
 
 # Kasus sudah terdapat di database
-def test_72():
+def test_update_udahada():
     '''
     Mengecek apakah program dapat 
     menambahkan entri ke database, 
@@ -134,7 +135,7 @@ def test_72():
     initTableKasus()
 
 # Kasus pengisian form belum selesai
-def test_73():
+def test_update_input_kosong():
     initTableKasus()
     conn = sqlite3.connect("sistem-tracking-corona.db")
     c = conn.cursor()
@@ -166,7 +167,7 @@ def test_73():
     initTableKasus()
 
 # Kasus pengisian form tidak memasukkan angka
-def test_74():
+def test_update_input_nonnumber():
     initTableKasus()
     conn = sqlite3.connect("sistem-tracking-corona.db")
     c = conn.cursor()
@@ -196,13 +197,3 @@ def test_74():
     assert (m == n)
 
     initTableKasus()
-
-# def runTC():
-#     test5_1()
-#     test5_2()
-#     test6_1()
-#     test6_2()
-#     test7_1()
-#     test7_2()
-#     test7_3()
-#     test7_4()
