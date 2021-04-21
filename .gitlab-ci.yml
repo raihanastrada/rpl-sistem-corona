@@ -21,7 +21,7 @@ MSDeploy:
   script:
   - echo "test ms deploy"
   - cd src/
-  - pyinstaller -F CoronaApp.py
+  - pyinstaller -F *.py
   artifacts:
     paths:
       - src/dist/*.exe
