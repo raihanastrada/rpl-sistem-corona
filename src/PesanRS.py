@@ -26,7 +26,7 @@ def lihatPemesananButton_clicked(widget,email):
     widget.stackedWidget.setCurrentIndex(2)
     email_pesanan = rsQueries.getReviewedPesananUser(email)
     if (not email_pesanan):
-        widget.label_4.setText("Status pemesanan anda ditolak, belum diterima atau tidak tercatat")
+        widget.label_4.setText("Status pemesanan anda ditolak, belum direview atau tidak tercatat")
     else:
         for i in range(len(email_pesanan)):
             rs_name = rsQueries.getRSName(email_pesanan[i][2])
