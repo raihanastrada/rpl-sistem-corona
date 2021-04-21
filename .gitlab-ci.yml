@@ -26,5 +26,4 @@ MSDeploy:
     paths:
       - src/dist/*.exe
       - src/screens
-      - src/*.db
-      - ../img/*
+      - ../img/*.png
