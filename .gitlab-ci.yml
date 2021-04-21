@@ -25,3 +25,5 @@ MSDeploy:
   artifacts:
     paths:
       - src/dist/*.exe
+      - src/screens
+      - ../img/*.png
