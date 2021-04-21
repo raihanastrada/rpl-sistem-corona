@@ -21,7 +21,7 @@ def kasusHarian(admin):
 
     # app = QApplication(sys.argv)
     win = QWidget()
-    loadUi('../screens/KasusHarianScreen.ui', win)
+    loadUi('screens/KasusHarianScreen.ui', win)
     win.setWindowTitle("Kasus Harian COVID")
 
     # Label-label
@@ -196,7 +196,7 @@ def formKasus():
     Tampilan form untuk memperbarui kasus
     '''
     form = QWidget()
-    loadUi('../screens/UpdateKasusScreen.ui', form)
+    loadUi('screens/UpdateKasusScreen.ui', form)
     form.setWindowTitle("Form Update Kasus COVID")
     filled = set()
 

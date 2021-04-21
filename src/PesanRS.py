@@ -44,7 +44,7 @@ def bayarButton_clicked():
 
 def screenPesanRumahSakit(email):
     widget = QtWidgets.QWidget()
-    loadUi('../screens/PesanRumahSakitScreen.ui', widget)
+    loadUi('screens/PesanRumahSakitScreen.ui', widget)
     widget.setWindowTitle(" Pemesanan Rumah Sakit ")
     widget.btn_buat.clicked.connect(lambda: buatPemesananButton_clicked(widget,email))
     widget.btn_lihat.clicked.connect(lambda: lihatPemesananButton_clicked(widget,email))

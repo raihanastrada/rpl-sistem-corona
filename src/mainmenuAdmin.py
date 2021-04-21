@@ -26,7 +26,7 @@ def logout_clicked(window):
 
 def MainMenuAdmin(email):
     window = QtWidgets.QMainWindow()
-    loadUi('../screens/MainAdminScreen.ui', window)
+    loadUi('screens/MainAdminScreen.ui', window)
     window.setWindowTitle("Sistem Tracking Corona Menu - Admin")
     window.btn_account.clicked.connect(lambda: account_clicked(window))
     window.btn_harian.clicked.connect(lambda: harian_clicked(window))
