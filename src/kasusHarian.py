@@ -112,7 +112,7 @@ def kasusHarian(admin):
     win.b1.setVisible(False)
     # Button Update
     if (admin):
-        win.b2.clicked.connect(lambda: fkh.formKasus())
+        win.b2.clicked.connect(lambda: fkh.formKasus(win))
     else:
         win.b2.setVisible(False)
         
@@ -222,3 +222,8 @@ def getLatestCase():
     jumlah_meninggal = records[4]
     '''
     return records
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    kasusHarian('adminnoler@gmail.com')
+    sys.exit(app.exec_())

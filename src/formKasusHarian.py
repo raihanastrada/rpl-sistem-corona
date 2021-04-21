@@ -5,7 +5,7 @@ import kasusHarian as kh
 import sys
 import sqlite3
 
-def formKasus():
+def formKasus(win):
     '''
     Tampilan form untuk memperbarui kasus
     '''
@@ -23,11 +23,11 @@ def formKasus():
     form.lineEdit3.textChanged.connect(lambda: filled.add("lineEdit3"))
     form.lineEdit4.textChanged.connect(lambda: filled.add("lineEdit4"))
 
-    form.b1.clicked.connect(lambda: processForm(form, filled))
+    form.b1.clicked.connect(lambda: processForm(form, filled, win))
 
     form.show()
 
-def processForm(form, filled):
+def processForm(form, filled, win):
     '''
     Mengkonfirmasi pengisian form dan mengecek apakah isi form valid
     '''
@@ -56,8 +56,24 @@ def processForm(form, filled):
             form.lineEdit3.clear()
             form.lineEdit4.clear()
             filled.clear()
-
+            
             form.close()
+            latestCase = kh.getLatestCase()
+            tanggal_indo = latestCase[0][8:10]+"/"+latestCase[0][5:7]+"/"+latestCase[0][0:4]
+            newText = "Kasus COVID" + " ("+tanggal_indo+")"
+            win.label_0.setText(newText)
+            # Total Kasus
+            newText = latestCase[1]
+            win.label_2.setText(str(newText))
+            # Jumlah Aktif
+            newText = latestCase[2]
+            win.label_4.setText(str(newText))
+            # Jumlah Sembuh
+            newText = latestCase[3]
+            win.label_6.setText(str(newText))
+            # Jumlah Meninggal
+            newText = latestCase[4]
+            win.label_8.setText(str(newText))
 
         except Exception as e:
             error_msg(repr(e))
@@ -162,4 +178,6 @@ def updateCase(entry):
     conn.close()
 
 if __name__ == "__main__":
+    app = QApplication(sys.argv)
     formKasus()
+    sys.exit(app.exec_())
